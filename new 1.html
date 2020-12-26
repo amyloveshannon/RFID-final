@@ -3,36 +3,40 @@
   <head>
     <style>
       #map {
-        height: 700px;
-        width: 50%;
+        height: 650px;
+        width: 100%;
        }
     </style>
   </head>
   <body>
-    <h3>My Google Maps Demo</h3>
-    <div id="map"></div>
+	<h3>外送地圖</h3>
+	<div id="clock"></div>
+	<button type="button" >更新地圖</button>
+	<div id="map"></div>
+	
     <script>
 	let polylinePathPoints = [//要連成線的點
-		{lat:23.55858, lng:120.47194},//門口警衛室
-		{lat:23.56056, lng:120.47357},//我加的中間折點
-		{lat:23.56090, lng:120.47239},//活動中心
+		{lat: 23.56162, lng: 120.47774},//起點
+		//{lat: 23.56194, lng: 120.47725},//加的中間折點
+		{lat: 23.56231, lng: 120.47671},//終點
     ];
 	
     function initMap() {
 		
-        var frontDoor = {lat: 23.55858, lng: 120.47194};//門口警衛室
-		var actCenter = {lat: 23.56090, lng: 120.47239};//活動中心
+        var startFlag = {lat: 23.56162, lng: 120.47774};//起點
+		var endFlag = {lat: 23.56231, lng: 120.47671};//終點
+	    var centerMap = {lat:23.56215, lng:120.47747}//map中心點:工學院一館
 		
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 16,
-          center: {lat:23.56332, lng:120.47267}//map中心點:中正大學
+          zoom: 18,
+          center: centerMap
         });
-        var frontMarker = new google.maps.Marker({//門口警衛室
-          position: frontDoor,
+        var frontMarker = new google.maps.Marker({//起點
+          position: startFlag,
 		  map: map
         });
-		var actMarker = new google.maps.Marker({//活動中心
-          position: actCenter,
+		var actMarker = new google.maps.Marker({//終點
+          position: endFlag,
           map: map
         });
 		let polyline = new google.maps.Polyline({
@@ -49,12 +53,9 @@
 	}
 	  
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCsd0qi1IqBlMES_HbscdbdhVKcrpC_I4&callback=initMap">
-    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCsd0qi1IqBlMES_HbscdbdhVKcrpC_I4&callback=initMap"></script>
 	
-	<script src ="bundle.js"> </script>
-	<!--<script src="sample.js"></script>-->
+
 	<script>
 	function currentTime(){
 	
@@ -78,7 +79,6 @@
 	}
 	</script>
 	<body onload = currentTime()>
-	<div id="clock"></div>
 	
 	
 	
