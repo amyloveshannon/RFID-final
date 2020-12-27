@@ -10,11 +10,17 @@
   </head>
   <body>
 	<h3>外送地圖</h3>
+	<h4 style="display:none" id ="GPS1">{GPS}</h4>
 	<div id="clock"></div>
 	<button type="button" >更新地圖</button>
 	<div id="map"></div>
 	
     <script>
+
+	var v=document.getElementById('GPS1').innerHTML;
+	var v1 = JSON.parse(v); //v1就是所有GPS的陣列
+　	console.log(v1);  //測試v1值
+
 	let polylinePathPoints = [//要連成線的點
 		{lat: 23.56162, lng: 120.47774},//起點
 		//{lat: 23.56194, lng: 120.47725},//加的中間折點
