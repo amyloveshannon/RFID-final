@@ -2,7 +2,7 @@
 Use LoRa module to get GPS data from deliveryman and implement google map route planning in real time.
 
 # Database - sqlite
-# Nodejs(Server) 
+# Server - Nodejs
 # Front - HTML + Javascript
 
 Steps:
