@@ -11,6 +11,7 @@ Steps:
 3. Get GPS data and show the delivery path on Google Map API. 
 
 To do:
+
 -> CMD: node app.js
 
 -> Browser: http://localhost:3000/
