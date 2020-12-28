@@ -8,12 +8,12 @@ Use LoRa module to get GPS data from deliveryman and implement google map route 
 # Front - HTML + Javascript
 -> new1.html
 
-Steps:
+# Steps:
 1. Use Lora module to upload GPS data to sqlite.
 2. Server take GPS data from database.And send to front web browser HTML.
 3. Get GPS data and show the delivery path on Google Map API. 
 
-To do:
+# To do:
 
 -> CMD: node app.js
 
