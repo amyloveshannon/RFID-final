@@ -1,94 +1,113 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      #map {
-        height: 650px;
-        width: 100%;
-       }
-    </style>
-  </head>
-  <body>
+
+<head>
+	<style>
+		#map {
+			height: 650px;
+			width: 100%;
+		}
+	</style>
+</head>
+
+<body>
 	<h3>外送地圖</h3>
-	<h4 style="display:none" id ="GPS1">{GPS}</h4>
+	<h4 style="display:none" id="GPS1">{GPS}</h4>
 	<div id="clock"></div>
-	<button type="button" >更新地圖</button>
 	<div id="map"></div>
-	
-    <script>
-
-	var v = document.getElementById('GPS1').innerHTML;
-	var v1 = JSON.parse(v); //v1就是所有GPS的陣列
-　	console.log(v1);  //測試v1值
-
-	let polylinePathPoints = [//要連成線的點
-		{lat: 23.56162, lng: 120.47774},//起點
-		//{lat: 23.56194, lng: 120.47725},//加的中間折點
-		{lat: 23.56231, lng: 120.47671},//終點
-    ];
-	
-    function initMap() {
-		
-        var startFlag = {lat: 23.56162, lng: 120.47774};//起點
-		var endFlag = {lat: 23.56231, lng: 120.47671};//終點
-	    var centerMap = {lat:23.56215, lng:120.47747}//map中心點:工學院一館
-		
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 18,
-          center: centerMap
-        });
-        var frontMarker = new google.maps.Marker({//起點
-          position: startFlag,
-		  map: map
-        });
-		var actMarker = new google.maps.Marker({//終點
-          position: endFlag,
-          map: map
-        });
-		let polyline = new google.maps.Polyline({
-			path: polylinePathPoints,
-			geodesic: true,
-			strokeColor: '#008800', // 折線顏色
-			strokeOpacity: 0.8, // 折線透明度
-			strokeWeight: 15,// 折線粗度
-			editable:false,
-			geodesic:false,
-			draggable:false
-		});
-		polyline.setMap(map);
-	}
-	  
-    </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCsd0qi1IqBlMES_HbscdbdhVKcrpC_I4&callback=initMap"></script>
-	
 
 	<script>
-	function currentTime(){
-	
-		var date = new Date(); /* creating object of Date class */
-		var hour = date.getHours();
-		var min = date.getMinutes();
-		var sec = date.getSeconds();
-		hour = updateTime(hour);
-		min = updateTime(min);
-		sec = updateTime(sec);
-		document.getElementById("clock").innerText = hour + " : " + min + " : " + sec; /* adding time to the div */
-		var t = setTimeout(function(){ currentTime() }, 1000); /* setting timer */
-	}
-	function updateTime(k) {
-		if (k < 10) {
-			return "0" + k;
+
+		var v = document.getElementById('GPS1').innerHTML;
+		var v1 = JSON.parse(v); //v1就是所有GPS的陣列
+		console.log(v1);  //測試v1值
+
+		let polylinePathPoints = [//要連成線的點
+			{ lat: 23.56162, lng: 120.47774 },//起點
+			//{lat: 23.56194, lng: 120.47725},//加的中間折點
+			//{ lat: v1[0][1], lng: v1[0][2] },//我測試把GPS輸入進google map
+			{ lat: 23.56231, lng: 120.47671 }//終點
+		];
+
+		function initMap() {
+
+			var startFlag = { lat: 23.56162, lng: 120.47774 };//起點
+			var endFlag = { lat: 23.56231, lng: 120.47671 };//終點
+			var centerMap = { lat: 23.56215, lng: 120.47747 }//map中心點:工學院一館
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 18,
+				center: centerMap
+			});
+			var frontMarker = new google.maps.Marker({//起點
+				position: startFlag,
+				map: map,
+				icon: {
+					path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+					scale: 8,
+				}
+			});
+			var marker3 = new google.maps.Marker({//我新增的GPS點
+				position: { lat: v1[0][1], lng: v1[0][2] },
+				map: map
+			});
+
+			/*for (i = 0; i < 5; i++) {
+				document.write(i);
+			}*/
+
+			var actMarker = new google.maps.Marker({//終點
+				position: endFlag,
+				map: map
+			});
+			let polyline = new google.maps.Polyline({
+				path: polylinePathPoints,
+				geodesic: true,
+				strokeColor: '#008800', // 折線顏色
+				strokeOpacity: 0.8, // 折線透明度
+				strokeWeight: 15,// 折線粗度
+				editable: false,
+				geodesic: false,
+				draggable: false
+			});
+			polyline.setMap(map);
+
+
 		}
-		else {
-			return k;
-		}
-	}
+
 	</script>
-	<body onload = currentTime()>
-	
-	
-	
-	<!--
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCsd0qi1IqBlMES_HbscdbdhVKcrpC_I4&callback=initMap"></script>
+
+
+	<script>
+		function currentTime() {
+
+			var date = new Date(); /* creating object of Date class */
+			var hour = date.getHours();
+			var min = date.getMinutes();
+			var sec = date.getSeconds();
+			hour = updateTime(hour);
+			min = updateTime(min);
+			sec = updateTime(sec);
+			document.getElementById("clock").innerText = hour + " : " + min + " : " + sec; /* adding time to the div */
+			var t = setTimeout(function () { currentTime() }, 1000); /* setting timer */
+		}
+		function updateTime(k) {
+			if (k < 10) {
+				return "0" + k;
+			}
+			else {
+				return k;
+			}
+		}
+	</script>
+
+	<body onload=currentTime()>
+
+
+
+		<!--
 	<script src='js/sql.js'></script>
 	<script>
     //Create the database
@@ -113,5 +132,6 @@
     }
 	</script>
 	-->
-  </body>
+	</body>
+
 </html>
