@@ -4,34 +4,103 @@
 <head>
 	<style>
 		#map {
-			height: 650px;
-			width: 100%;
+			height: 750px;
+			width: 90%;
+		}
+		.center {
+			margin: auto;
+			border: 3px solid rgb(98, 139, 192);
 		}
 	</style>
 </head>
 
-<body>
-	<h3>外送地圖</h3>
-	<h4 style="display:none" id="GPS1">{GPS}</h4>
+<body style="background-color: #D1E9E9">
+	<h1 style="color:#036cb3; font-family:DFKai-SB; text-align:center;">中正大學 校外人士路線地圖</h1>
+	<p>現在時間: </p>
 	<div id="clock"></div>
-	<div id="map"></div>
+	<!--<p>預計到達時間: </p>
+	<div id="arrive"></div>-->
+
+	<br>
+	<div style="display:none" id="GPS1">{GPS}</div>
+	<div id="map" class="center"></div>
 
 	<script>
 
 		var v = document.getElementById('GPS1').innerHTML;
-		var v1 = JSON.parse(v); //v1就是所有GPS的陣列
+		var v1 = JSON.parse(v); //v1就是所有GPS的陣列 //JSON轉陣列
 		console.log(v1);  //測試v1值
 
-		let polylinePathPoints = [//要連成線的點
-			{ lat: 23.56162, lng: 120.47774 },//起點
-			//{lat: 23.56194, lng: 120.47725},//加的中間折點
-			//{ lat: v1[0][1], lng: v1[0][2] },//我測試把GPS輸入進google map
-			{ lat: 23.56231, lng: 120.47671 }//終點
+		let predictPath = [//要連成線的點
+			{ lat: v1[0][1], lng: v1[0][2] },
+			{ lat: v1[1][1], lng: v1[1][2] },
+			{ lat: v1[2][1], lng: v1[2][2] },
+			{ lat: v1[3][1], lng: v1[3][2] },
+			{ lat: v1[4][1], lng: v1[4][2] },
+			{ lat: v1[5][1], lng: v1[5][2] },
+			{ lat: v1[6][1], lng: v1[6][2] },
+			{ lat: v1[7][1], lng: v1[7][2] },
+			{ lat: v1[8][1], lng: v1[8][2] },
+			{ lat: v1[9][1], lng: v1[9][2] },
+			{ lat: v1[10][1], lng: v1[10][2] },
+			{ lat: v1[11][1], lng: v1[11][2] },
+			{ lat: v1[12][1], lng: v1[12][2] },
+			{ lat: v1[13][1], lng: v1[13][2] },
+			{ lat: v1[14][1], lng: v1[14][2] },
+			{ lat: v1[15][1], lng: v1[15][2] },
+			{ lat: v1[16][1], lng: v1[16][2] },
+			{ lat: v1[17][1], lng: v1[17][2] },
+			{ lat: v1[18][1], lng: v1[18][2] },
+			{ lat: v1[19][1], lng: v1[19][2] },
+			{ lat: v1[20][1], lng: v1[20][2] },
+			{ lat: v1[21][1], lng: v1[21][2] },
+			{ lat: v1[22][1], lng: v1[22][2] },
+			{ lat: v1[23][1], lng: v1[23][2] },
+			{ lat: v1[24][1], lng: v1[24][2] },
+			{ lat: v1[25][1], lng: v1[25][2] },
+			{ lat: v1[26][1], lng: v1[26][2] },
+			{ lat: v1[27][1], lng: v1[27][2] },
+			{ lat: v1[28][1], lng: v1[28][2] },
+			{ lat: v1[29][1], lng: v1[29][2] }
+		];
+		let realPath = [//要連成線的點 //時間:0；經度:1；緯度:2
+			/*{ lat: v1[0][1], lng: v1[0][2] },
+			{ lat: v1[1][1], lng: v1[1][2] },
+			{ lat: v1[2][1], lng: v1[2][2] },
+			{ lat: v1[3][1], lng: v1[3][2] },
+			{ lat: v1[4][1], lng: v1[4][2] },
+			{ lat: v1[5][1], lng: v1[5][2] },
+			{ lat: v1[6][1], lng: v1[6][2] },
+			{ lat: v1[7][1], lng: v1[7][2] },
+			{ lat: v1[8][1], lng: v1[8][2] },
+			{ lat: v1[9][1], lng: v1[9][2] },
+			{ lat: v1[10][1], lng: v1[10][2] },
+			{ lat: v1[11][1], lng: v1[11][2] },
+			{ lat: v1[12][1], lng: v1[12][2] },*/
+			{ lat: 23.56231, lng: 120.47671 },
+			{ lat: 23.56159, lng: 120.47777 },
+			{ lat: v1[13][1], lng: v1[13][2] },
+			{ lat: v1[14][1], lng: v1[14][2] },
+			{ lat: v1[15][1], lng: v1[15][2] },
+			{ lat: v1[16][1], lng: v1[16][2] },
+			{ lat: v1[17][1], lng: v1[17][2] },
+			{ lat: v1[18][1], lng: v1[18][2] },
+			{ lat: v1[19][1], lng: v1[19][2] },
+			{ lat: v1[20][1], lng: v1[20][2] },
+			{ lat: v1[21][1], lng: v1[21][2] },
+			{ lat: v1[22][1], lng: v1[22][2] },
+			{ lat: v1[23][1], lng: v1[23][2] },//myPosition
+			{ lat: v1[24][1], lng: v1[24][2] },
+			{ lat: v1[25][1], lng: v1[25][2] },
+			{ lat: v1[26][1], lng: v1[26][2] },
+			{ lat: v1[27][1], lng: v1[27][2] },
+			{ lat: v1[28][1], lng: v1[28][2] },
+			{ lat: v1[29][1], lng: v1[29][2] }
 		];
 
 		function initMap() {
 
-			var startFlag = { lat: 23.56162, lng: 120.47774 };//起點
+			var startFlag = { lat: 23.56158, lng: 120.47778 };//起點
 			var endFlag = { lat: 23.56231, lng: 120.47671 };//終點
 			var centerMap = { lat: 23.56215, lng: 120.47747 }//map中心點:工學院一館
 
@@ -39,31 +108,40 @@
 				zoom: 18,
 				center: centerMap
 			});
-			var frontMarker = new google.maps.Marker({//起點
+			/*var frontMarker = new google.maps.Marker({//起點
 				position: startFlag,
 				map: map,
 				icon: {
-					path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-					scale: 8,
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: 5
+				}
+			});*/
+			var marker3 = new google.maps.Marker({//我新增的GPS點
+				position: { lat: v1[29][1], lng: v1[29][2] },
+				map: map,
+				icon: {
+					path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,//google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+					scale: 5
 				}
 			});
-			var marker3 = new google.maps.Marker({//我新增的GPS點
-				position: { lat: v1[0][1], lng: v1[0][2] },
-				map: map
-			});
-
-			/*for (i = 0; i < 5; i++) {
-				document.write(i);
-			}*/
+			/*var delivery = new google.maps.Marker({//外送員GPS點
+				position: { lat: 23.56209, lng: 120.47702 },
+				map: map,
+				icon: {
+					path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,//google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+					scale: 5
+				}
+			});*/
 
 			var actMarker = new google.maps.Marker({//終點
 				position: endFlag,
 				map: map
 			});
+
 			let polyline = new google.maps.Polyline({
-				path: polylinePathPoints,
+				path: predictPath,
 				geodesic: true,
-				strokeColor: '#008800', // 折線顏色
+				strokeColor: '#EA0000', // 折線顏色
 				strokeOpacity: 0.8, // 折線透明度
 				strokeWeight: 15,// 折線粗度
 				editable: false,
@@ -72,6 +150,14 @@
 			});
 			polyline.setMap(map);
 
+			let polyline2 = new google.maps.Polyline({
+				path: realPath,
+				geodesic: true,
+				strokeColor: '#7E3D76', // 折線顏色
+				strokeOpacity: 0.8, // 折線透明度
+				strokeWeight: 15,// 折線粗度
+			});
+			polyline2.setMap(map);
 
 		}
 
@@ -90,8 +176,28 @@
 			hour = updateTime(hour);
 			min = updateTime(min);
 			sec = updateTime(sec);
-			document.getElementById("clock").innerText = hour + " : " + min + " : " + sec; /* adding time to the div */
+			document.getElementById("clock").innerText = hour + " : " + min + " : " + sec; /* adding clock time to the div */
 			var t = setTimeout(function () { currentTime() }, 1000); /* setting timer */
+
+			//計算預計送達時間
+			/*const myPosition_lat = v1[23][1];
+			const myPosition_lng = v1[23][2];
+			console.log("myPosition: " + myPosition_lat + ", " + myPosition_lng);
+			var arr_date = new Date(); 
+			var arr_hour = date.getHours();
+			var arr_min = date.getMinutes() + 3;
+			var arr_sec = date.getSeconds();
+			arr_hour = updateTime(arr_hour);
+			arr_min = updateTime(arr_min);
+			arr_sec = updateTime(arr_sec);
+			//判斷外送員目前位置
+			if(myPosition_lat==23.56263 && myPosition_lng == 120.47912){
+				document.getElementById("arrive").innerText = arr_hour + " : " + arr_min + " : " + arr_sec; 
+			}
+			else{
+				document.getElementById("arrive").innerText = null;
+			}
+			var t = setTimeout(function () { currentTime() }, 1000);*/
 		}
 		function updateTime(k) {
 			if (k < 10) {
@@ -104,34 +210,6 @@
 	</script>
 
 	<body onload=currentTime()>
-
-
-
-		<!--
-	<script src='js/sql.js'></script>
-	<script>
-    //Create the database
-    var db = new SQL.Database();
-    // Run a query without reading the results
-    db.run("CREATE TABLE test (col1, col2);");
-    // Insert two rows: (1,111) and (2,222)
-    db.run("INSERT INTO test VALUES (?,?), (?,?), (?,?)", [1,111, 2,222, 3,333]);
-
-    
-    // Prepare a statement
-    var stmt = db.prepare("SELECT * FROM test");
-    stmt.getAsObject({$start:1, $end:1}); // {col1:1, col2:111}
-    
-    
-    stmt.bind({$start:1, $end:2});
-    while(stmt.step()) { //
-        var row = stmt.getAsObject();
-        //alert('a=' + row.col1 + " " + row.col2 );
-        document.write("b=" + row.col1 + " " + row.col2 + "<br/>");
-        // [...] do something with the row of result
-    }
-	</script>
-	-->
 	</body>
 
 </html>

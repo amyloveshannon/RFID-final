@@ -11,7 +11,7 @@ const sqlite = require('sqlite3').verbose()
 let indexPage = path.join(__dirname + '/new1.html')
 
 app.use(express.static('public'));
-let db = new sqlite.Database('./group1.db',(err)=>{
+let db = new sqlite.Database('./group1_new.db',(err)=>{
 
     if(err){
         console.log(error.message)
